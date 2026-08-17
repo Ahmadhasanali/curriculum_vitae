@@ -452,17 +452,19 @@
     if (!container) return;
     container.innerHTML = "";
     var map = calendar || {};
-    var today = new Date();
-    var year = today.getUTCFullYear();
-    var daysInYear = new Date(Date.UTC(year, 11, 31)).getUTCDate() === 31 ? (isLeap(year) ? 366 : 365) : 365;
+    var dayMs = 86400000;
+    var now = new Date();
+    var end = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+    var start = end - 364 * dayMs;
     var counts = [];
-    for (var d = 0; d < daysInYear; d++) counts.push(0);
+    for (var d = 0; d < 365; d++) counts.push(0);
     for (var key in map) {
-      if (map.hasOwnProperty(key) && key.indexOf(year + "-") === 0) {
-        var parts = key.split("-");
-        var dayIndex = dayOfYear(year, parseInt(parts[1], 10), parseInt(parts[2], 10)) - 1;
-        if (dayIndex >= 0 && dayIndex < daysInYear) counts[dayIndex] = map[key];
-      }
+      if (!map.hasOwnProperty(key)) continue;
+      var parts = key.split("-");
+      if (parts.length !== 3) continue;
+      var t = Date.UTC(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+      var idx = (t - start) / dayMs;
+      if (idx >= 0 && idx < 365) counts[idx] = map[key];
     }
     var max = 1;
     for (var i2 = 0; i2 < counts.length; i2++) if (counts[i2] > max) max = counts[i2];
@@ -473,29 +475,13 @@
       var level = v === 0 ? 0 : Math.min(4, Math.ceil((v / max) * 4));
       var cell = document.createElement("span");
       cell.className = "leetcode__day leetcode__day--l" + level;
-      var iso = isoDate(year, i3 + 1);
+      cell.setAttribute("aria-hidden", "true");
+      var iso = new Date(start + i3 * dayMs).toISOString().slice(0, 10);
       cell.title = iso;
       if (v > 0) cell.title = v + " \u00b7 " + iso;
       grid.appendChild(cell);
     }
     container.appendChild(grid);
-  }
-
-  function isLeap(y) {
-    return (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0;
-  }
-
-  function isoDate(year, day) {
-    var d = new Date(Date.UTC(year, 0, day));
-    var m = String(d.getUTCMonth() + 1).padStart(2, "0");
-    var dd = String(d.getUTCDate()).padStart(2, "0");
-    return year + "-" + m + "-" + dd;
-  }
-
-  function dayOfYear(year, m, day) {
-    var d = new Date(Date.UTC(year, m - 1, day));
-    var start = Date.UTC(year, 0, 1);
-    return Math.floor((d - start) / 86400000) + 1;
   }
 
   renderLeetCode();
