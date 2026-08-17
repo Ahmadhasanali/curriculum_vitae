@@ -171,6 +171,8 @@
       "leetcode.easy": "Easy",
       "leetcode.medium": "Medium",
       "leetcode.hard": "Hard",
+      "leetcode.streak": "day streak",
+      "leetcode.activeDays": "active days",
       "portfolio.title": "Featured Projects",
       "portfolio.qurban.description":
         "Offline-First Qurban Fund Ledger System for Muhammadiyah Branches (PRM). Ledger-based fund management tracking seluruh perpindahan dana dari peserta hingga LAZIS dengan dukungan offline synchronization dan audit trail.",
@@ -239,6 +241,8 @@
       "leetcode.easy": "Mudah",
       "leetcode.medium": "Sedang",
       "leetcode.hard": "Sulit",
+      "leetcode.streak": "hari streak",
+      "leetcode.activeDays": "hari aktif",
       "portfolio.title": "Proyek Unggulan",
       "portfolio.qurban.description":
         "Sistem Buku Besar Dana Qurban Offline-First untuk Cabang Muhammadiyah (PRM). Manajemen dana berbasis buku besar yang melacak seluruh perpindahan dana dari peserta hingga LAZIS dengan dukungan sinkronisasi offline dan audit trail.",
@@ -373,4 +377,114 @@
   }
 
   renderPortfolio();
+
+  /* ==============================
+     LEETCODE — DATA DRIVEN (fail-closed)
+     ============================== */
+
+  function isValidLeetcode(data) {
+    if (!data || typeof data !== "object") return false;
+    var s = data.solved;
+    if (!s || typeof s !== "object") return false;
+    var keys = ["all", "easy", "medium", "hard"];
+    for (var i = 0; i < keys.length; i++) {
+      if (typeof s[keys[i]] !== "number" || !isFinite(s[keys[i]])) return false;
+    }
+    return true;
+  }
+
+  function leetcodeStreakText(streak) {
+    return streak > 0 ? streak + " " + translations[currentLang]["leetcode.streak"] : "";
+  }
+
+  function renderLeetCode() {
+    var section = document.getElementById("leetcode");
+    if (!section) return;
+
+    fetch("data/leetcode.json")
+      .then(function (r) {
+        if (!r.ok) throw new Error("http " + r.status);
+        return r.json();
+      })
+      .then(function (data) {
+        if (!isValidLeetcode(data)) throw new Error("invalid schema");
+
+        document.getElementById("leetcode-username").textContent = data.username;
+        var link = document.getElementById("leetcode-profile-link");
+        link.href = "https://leetcode.com/u/" + data.username + "/";
+
+        document.getElementById("leetcode-total").textContent = data.solved.all;
+        document.getElementById("leetcode-easy").textContent = data.solved.easy;
+        document.getElementById("leetcode-medium").textContent = data.solved.medium;
+        document.getElementById("leetcode-hard").textContent = data.solved.hard;
+
+        renderHeatmap(document.getElementById("leetcode-heatmap"), data.calendar);
+
+        var meta = document.getElementById("leetcode-meta");
+        var texts = [];
+        if (data.streak > 0) texts.push(leetcodeStreakText(data.streak));
+        if (data.totalActiveDays > 0)
+          texts.push(data.totalActiveDays + " " + translations[currentLang]["leetcode.activeDays"]);
+        var fetched = document.createElement("span");
+        fetched.className = "leetcode__updated";
+        fetched.textContent = texts.length ? texts.join(" \u00b7 ") : "";
+        meta.appendChild(fetched);
+        setLang(currentLang);
+      })
+      .catch(function () {
+        section.classList.add("is-hidden");
+      });
+  }
+
+  function renderHeatmap(container, calendar) {
+    if (!container) return;
+    container.innerHTML = "";
+    var map = calendar || {};
+    var today = new Date();
+    var year = today.getUTCFullYear();
+    var daysInYear = new Date(Date.UTC(year, 11, 31)).getUTCDate() === 31 ? (isLeap(year) ? 366 : 365) : 365;
+    var counts = [];
+    for (var d = 0; d < daysInYear; d++) counts.push(0);
+    for (var key in map) {
+      if (map.hasOwnProperty(key) && key.indexOf(year + "-") === 0) {
+        var parts = key.split("-");
+        var dayIndex = dayOfYear(year, parseInt(parts[1], 10), parseInt(parts[2], 10)) - 1;
+        if (dayIndex >= 0 && dayIndex < daysInYear) counts[dayIndex] = map[key];
+      }
+    }
+    var max = 1;
+    for (var i2 = 0; i2 < counts.length; i2++) if (counts[i2] > max) max = counts[i2];
+    var grid = document.createElement("div");
+    grid.className = "leetcode__heatmap-grid";
+    for (var i3 = 0; i3 < counts.length; i3++) {
+      var v = counts[i3];
+      var level = v === 0 ? 0 : Math.min(4, Math.ceil((v / max) * 4));
+      var cell = document.createElement("span");
+      cell.className = "leetcode__day leetcode__day--l" + level;
+      var iso = isoDate(year, i3 + 1);
+      cell.title = iso;
+      if (v > 0) cell.title = v + " \u00b7 " + iso;
+      grid.appendChild(cell);
+    }
+    container.appendChild(grid);
+  }
+
+  function isLeap(y) {
+    return (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0;
+  }
+
+  function isoDate(year, day) {
+    var d = new Date(Date.UTC(year, 0, day));
+    var m = String(d.getUTCMonth() + 1).padStart(2, "0");
+    var dd = String(d.getUTCDate()).padStart(2, "0");
+    return year + "-" + m + "-" + dd;
+  }
+
+  function dayOfYear(year, m, day) {
+    var d = new Date(Date.UTC(year, m - 1, day));
+    var start = Date.UTC(year, 0, 1);
+    return Math.floor((d - start) / 86400000) + 1;
+  }
+
+  renderLeetCode();
 })();
