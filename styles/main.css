@@ -1106,6 +1106,11 @@ body {
 .leetcode__stat--medium .leetcode__stat-value { color: var(--medium, #d29922); }
 .leetcode__stat--hard .leetcode__stat-value { color: var(--hard, #f85149); }
 
+[data-theme="light"] .leetcode__stat--easy .leetcode__stat-value { color: #1a7f37; }
+[data-theme="light"] .leetcode__stat--medium .leetcode__stat-value { color: #9a6700; }
+[data-theme="light"] .leetcode__stat--hard .leetcode__stat-value { color: #cf222e; }
+[data-theme="light"] .leetcode__stat--total .leetcode__stat-value { color: #0b7b7e; }
+
 .leetcode__stat-label {
   display: block;
   margin-top: 6px;

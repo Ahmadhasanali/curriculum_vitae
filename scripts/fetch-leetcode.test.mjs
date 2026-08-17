@@ -19,7 +19,7 @@ test("parseSolved: struktur berubah => default 0, bukan throw", () => {
 });
 
 test("parseCalendar: submissionCalendar didecode ke YYYY-MM-DD, hanya tahun berjalan", () => {
-  const now = new Date();
+  const now = new Date("2026-06-01T00:00:00Z");
   const year = now.getUTCFullYear();
   const cal = parseCalendar(calRes, now);
   for (const date of Object.keys(cal.calendar)) {

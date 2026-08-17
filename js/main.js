@@ -409,7 +409,7 @@
         return r.json();
       })
       .then(function (data) {
-        if (!isValidLeetcode(data)) throw new Error("invalid schema");
+        if (!isValidLeetcode(data) || typeof data.username !== "string") throw new Error("invalid schema");
 
         document.getElementById("leetcode-username").textContent = data.username;
         var link = document.getElementById("leetcode-profile-link");
