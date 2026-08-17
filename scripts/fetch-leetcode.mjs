@@ -82,8 +82,10 @@ async function gql(query, variables) {
 
 async function main() {
   const args = process.argv.slice(2);
-  const outPath = resolve(args[args.indexOf("--out") + 1] || DEFAULT_OUT);
-  const username = args[args.indexOf("--username") + 1] || DEFAULT_USERNAME;
+  const outIdx = args.indexOf("--out");
+  const userIdx = args.indexOf("--username");
+  const outPath = resolve((outIdx >= 0 ? args[outIdx + 1] : undefined) || DEFAULT_OUT);
+  const username = (userIdx >= 0 ? args[userIdx + 1] : undefined) || DEFAULT_USERNAME;
 
   const solvedQuery = `
     query userCalendar($username: String!) {
