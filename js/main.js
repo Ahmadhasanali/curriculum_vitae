@@ -269,6 +269,7 @@
 
   var langToggle = document.getElementById("lang-toggle");
   var currentLang = localStorage.getItem("lang") || "id";
+  var lastLeetCodeData = null;
 
   function setLang(lang) {
     currentLang = lang;
@@ -293,6 +294,7 @@
     });
 
     html.setAttribute("lang", lang);
+    if (lastLeetCodeData) renderLeetCodeMeta();
   }
 
   setLang(currentLang);
@@ -420,20 +422,30 @@
 
         renderHeatmap(document.getElementById("leetcode-heatmap"), data.calendar);
 
-        var meta = document.getElementById("leetcode-meta");
-        var texts = [];
-        if (data.streak > 0) texts.push(leetcodeStreakText(data.streak));
-        if (data.totalActiveDays > 0)
-          texts.push(data.totalActiveDays + " " + translations[currentLang]["leetcode.activeDays"]);
-        var fetched = document.createElement("span");
-        fetched.className = "leetcode__updated";
-        fetched.textContent = texts.length ? texts.join(" \u00b7 ") : "";
-        meta.appendChild(fetched);
+        lastLeetCodeData = data;
+        renderLeetCodeMeta();
         setLang(currentLang);
       })
       .catch(function () {
         section.classList.add("is-hidden");
       });
+  }
+
+  function renderLeetCodeMeta() {
+    if (!lastLeetCodeData) return;
+    var meta = document.getElementById("leetcode-meta");
+    var texts = [];
+    if (lastLeetCodeData.streak > 0)
+      texts.push(leetcodeStreakText(lastLeetCodeData.streak));
+    if (lastLeetCodeData.totalActiveDays > 0)
+      texts.push(
+        lastLeetCodeData.totalActiveDays + " " + translations[currentLang]["leetcode.activeDays"]
+      );
+    var fetched = document.createElement("span");
+    fetched.className = "leetcode__updated";
+    fetched.textContent = texts.length ? texts.join(" \u00b7 ") : "";
+    meta.innerHTML = "";
+    meta.appendChild(fetched);
   }
 
   function renderHeatmap(container, calendar) {
