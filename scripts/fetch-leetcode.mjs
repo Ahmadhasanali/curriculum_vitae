@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { writeFile, mkdir, rename } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const API_URL = "https://leetcode.com/graphql/";
 const DEFAULT_USERNAME = "ahmadhasanali";
@@ -127,7 +127,9 @@ async function main() {
   console.log(`OK: ${outPath} (${username}, ${payload.solved.all} solved)`);
 }
 
-main().catch((err) => {
-  console.error(`FAIL: ${err.message}`);
-  process.exit(1);
-});
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((err) => {
+    console.error(`FAIL: ${err.message}`);
+    process.exit(1);
+  });
+}
