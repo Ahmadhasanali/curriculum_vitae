@@ -38,3 +38,12 @@ jobs:
         run: |
           ssh ${{ secrets.HOME_SERVER_USER }}@${{ secrets.HOME_SERVER_HOST }} \
             "cd $DEPLOY_PATH && git pull && docker compose -f $DOCKER_FILE_NAME up -d --build"
+
+      - name: Purge Cloudflare cache
+        if: ${{ secrets.CF_ZONE_ID != '' && secrets.CF_API_TOKEN != '' }}
+        run: |
+          curl -fsS -X POST \
+            "https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/purge_cache" \
+            -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            --data '{"purge_everything":true}'
