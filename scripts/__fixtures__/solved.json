@@ -1,0 +1,20 @@
+{
+  "data": {
+    "allQuestionsCount": [
+      { "difficulty": "All", "count": 3361 },
+      { "difficulty": "Easy", "count": 850 },
+      { "difficulty": "Medium", "count": 1774 },
+      { "difficulty": "Hard", "count": 737 }
+    ],
+    "matchedUser": {
+      "submit_stats": {
+        "acSubmissionNum": [
+          { "difficulty": "All", "count": 9 },
+          { "difficulty": "Easy", "count": 7 },
+          { "difficulty": "Medium", "count": 2 },
+          { "difficulty": "Hard", "count": 0 }
+        ]
+      }
+    }
+  }
+}

@@ -165,6 +165,14 @@
       "skills.title": "Skills & Technologies",
       "skills.expert": "Expert",
       "skills.intermediate": "Intermediate",
+      "leetcode.title": "LeetCode",
+      "leetcode.profileLink": "View profile",
+      "leetcode.total": "Solved",
+      "leetcode.easy": "Easy",
+      "leetcode.medium": "Medium",
+      "leetcode.hard": "Hard",
+      "leetcode.streak": "day streak",
+      "leetcode.activeDays": "active days",
       "portfolio.title": "Featured Projects",
       "portfolio.qurban.description":
         "Offline-First Qurban Fund Ledger System for Muhammadiyah Branches (PRM). Ledger-based fund management tracking seluruh perpindahan dana dari peserta hingga LAZIS dengan dukungan offline synchronization dan audit trail.",
@@ -227,6 +235,14 @@
       "skills.title": "Keahlian & Teknologi",
       "skills.expert": "Ahli",
       "skills.intermediate": "Menengah",
+      "leetcode.title": "LeetCode",
+      "leetcode.profileLink": "Lihat profil",
+      "leetcode.total": "Terselesaikan",
+      "leetcode.easy": "Mudah",
+      "leetcode.medium": "Sedang",
+      "leetcode.hard": "Sulit",
+      "leetcode.streak": "hari streak",
+      "leetcode.activeDays": "hari aktif",
       "portfolio.title": "Proyek Unggulan",
       "portfolio.qurban.description":
         "Sistem Buku Besar Dana Qurban Offline-First untuk Cabang Muhammadiyah (PRM). Manajemen dana berbasis buku besar yang melacak seluruh perpindahan dana dari peserta hingga LAZIS dengan dukungan sinkronisasi offline dan audit trail.",
@@ -253,6 +269,7 @@
 
   var langToggle = document.getElementById("lang-toggle");
   var currentLang = localStorage.getItem("lang") || "id";
+  var lastLeetCodeData = null;
 
   function setLang(lang) {
     currentLang = lang;
@@ -277,6 +294,7 @@
     });
 
     html.setAttribute("lang", lang);
+    if (lastLeetCodeData) renderLeetCodeMeta();
   }
 
   setLang(currentLang);
@@ -361,4 +379,110 @@
   }
 
   renderPortfolio();
+
+  /* ==============================
+     LEETCODE — DATA DRIVEN (fail-closed)
+     ============================== */
+
+  function isValidLeetcode(data) {
+    if (!data || typeof data !== "object") return false;
+    var s = data.solved;
+    if (!s || typeof s !== "object") return false;
+    var keys = ["all", "easy", "medium", "hard"];
+    for (var i = 0; i < keys.length; i++) {
+      if (typeof s[keys[i]] !== "number" || !isFinite(s[keys[i]])) return false;
+    }
+    return true;
+  }
+
+  function leetcodeStreakText(streak) {
+    return streak > 0 ? streak + " " + translations[currentLang]["leetcode.streak"] : "";
+  }
+
+  function renderLeetCode() {
+    var section = document.getElementById("leetcode");
+    if (!section) return;
+
+    fetch("data/leetcode.json")
+      .then(function (r) {
+        if (!r.ok) throw new Error("http " + r.status);
+        return r.json();
+      })
+      .then(function (data) {
+        if (!isValidLeetcode(data) || typeof data.username !== "string") throw new Error("invalid schema");
+
+        document.getElementById("leetcode-username").textContent = data.username;
+        var link = document.getElementById("leetcode-profile-link");
+        link.href = "https://leetcode.com/u/" + data.username + "/";
+
+        document.getElementById("leetcode-total").textContent = data.solved.all;
+        document.getElementById("leetcode-easy").textContent = data.solved.easy;
+        document.getElementById("leetcode-medium").textContent = data.solved.medium;
+        document.getElementById("leetcode-hard").textContent = data.solved.hard;
+
+        renderHeatmap(document.getElementById("leetcode-heatmap"), data.calendar);
+
+        lastLeetCodeData = data;
+        renderLeetCodeMeta();
+        setLang(currentLang);
+      })
+      .catch(function () {
+        section.classList.add("is-hidden");
+      });
+  }
+
+  function renderLeetCodeMeta() {
+    if (!lastLeetCodeData) return;
+    var meta = document.getElementById("leetcode-meta");
+    var texts = [];
+    if (lastLeetCodeData.streak > 0)
+      texts.push(leetcodeStreakText(lastLeetCodeData.streak));
+    if (lastLeetCodeData.totalActiveDays > 0)
+      texts.push(
+        lastLeetCodeData.totalActiveDays + " " + translations[currentLang]["leetcode.activeDays"]
+      );
+    var fetched = document.createElement("span");
+    fetched.className = "leetcode__updated";
+    fetched.textContent = texts.length ? texts.join(" \u00b7 ") : "";
+    meta.innerHTML = "";
+    meta.appendChild(fetched);
+  }
+
+  function renderHeatmap(container, calendar) {
+    if (!container) return;
+    container.innerHTML = "";
+    var map = calendar || {};
+    var dayMs = 86400000;
+    var now = new Date();
+    var end = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+    var start = end - 364 * dayMs;
+    var counts = [];
+    for (var d = 0; d < 365; d++) counts.push(0);
+    for (var key in map) {
+      if (!map.hasOwnProperty(key)) continue;
+      var parts = key.split("-");
+      if (parts.length !== 3) continue;
+      var t = Date.UTC(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+      var idx = (t - start) / dayMs;
+      if (idx >= 0 && idx < 365) counts[idx] = map[key];
+    }
+    var max = 1;
+    for (var i2 = 0; i2 < counts.length; i2++) if (counts[i2] > max) max = counts[i2];
+    var grid = document.createElement("div");
+    grid.className = "leetcode__heatmap-grid";
+    for (var i3 = 0; i3 < counts.length; i3++) {
+      var v = counts[i3];
+      var level = v === 0 ? 0 : Math.min(4, Math.ceil((v / max) * 4));
+      var cell = document.createElement("span");
+      cell.className = "leetcode__day leetcode__day--l" + level;
+      cell.setAttribute("aria-hidden", "true");
+      var iso = new Date(start + i3 * dayMs).toISOString().slice(0, 10);
+      cell.title = iso;
+      if (v > 0) cell.title = v + " \u00b7 " + iso;
+      grid.appendChild(cell);
+    }
+    container.appendChild(grid);
+  }
+
+  renderLeetCode();
 })();

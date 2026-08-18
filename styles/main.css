@@ -1046,3 +1046,115 @@ body {
     padding: 16px;
   }
 }
+
+/* ==============================
+   LEETCODE
+   ============================== */
+.leetcode__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.leetcode__username {
+  font-family: var(--font-mono, "JetBrains Mono", monospace);
+  font-size: 14px;
+  color: var(--text-secondary, #8892b0);
+}
+
+.leetcode__profile-link {
+  font-size: 14px;
+  color: var(--accent, #64ffda);
+  text-decoration: none;
+  border: 1px solid currentColor;
+  padding: 6px 14px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.leetcode__profile-link:hover {
+  background: var(--accent-glow, rgba(100, 255, 218, 0.1));
+}
+
+.leetcode__stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.leetcode__stat {
+  background: var(--bg-card, rgba(255, 255, 255, 0.02));
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
+  border-radius: 10px;
+  padding: 18px 16px;
+  text-align: center;
+}
+
+.leetcode__stat-value {
+  display: block;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.leetcode__stat--total .leetcode__stat-value { color: var(--accent, #64ffda); }
+.leetcode__stat--easy .leetcode__stat-value { color: var(--easy, #3fb950); }
+.leetcode__stat--medium .leetcode__stat-value { color: var(--medium, #d29922); }
+.leetcode__stat--hard .leetcode__stat-value { color: var(--hard, #f85149); }
+
+[data-theme="light"] .leetcode__stat--easy .leetcode__stat-value { color: #1a7f37; }
+[data-theme="light"] .leetcode__stat--medium .leetcode__stat-value { color: #9a6700; }
+[data-theme="light"] .leetcode__stat--hard .leetcode__stat-value { color: #cf222e; }
+[data-theme="light"] .leetcode__stat--total .leetcode__stat-value { color: #0b7b7e; }
+
+.leetcode__stat-label {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--text-secondary, #8892b0);
+}
+
+.leetcode__heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 12px);
+  grid-auto-flow: column;
+  grid-template-rows: repeat(7, 12px);
+  gap: 3px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  justify-content: start;
+}
+
+.leetcode__day {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  background: var(--heat-0, rgba(255, 255, 255, 0.06));
+}
+
+.leetcode__day--l1 { background: var(--heat-1, #0e4429); }
+.leetcode__day--l2 { background: var(--heat-2, #006d32); }
+.leetcode__day--l3 { background: var(--heat-3, #26a641); }
+.leetcode__day--l4 { background: var(--heat-4, #39d353); }
+
+.leetcode__meta {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--text-secondary, #8892b0);
+}
+
+.is-hidden { display: none !important; }
+
+@media (max-width: 640px) {
+  .leetcode__stats { grid-template-columns: repeat(2, 1fr); }
+  .leetcode__heatmap-grid { grid-template-columns: repeat(auto-fit, 10px); grid-template-rows: repeat(7, 10px); }
+  .leetcode__day { width: 10px; height: 10px; }
+}
+
+[data-theme="light"] .leetcode__day {
+  --heat-0: #ebedf0;
+}

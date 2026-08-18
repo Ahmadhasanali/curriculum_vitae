@@ -1,0 +1,11 @@
+{
+  "data": {
+    "matchedUser": {
+      "calendar": {
+        "submission_calendar": "{\"1723900800\":2,\"1723987200\":1,\"1776038400\":1}",
+        "total_active_days": 3,
+        "streak": 2
+      }
+    }
+  }
+}
