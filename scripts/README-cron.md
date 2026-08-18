@@ -7,6 +7,12 @@ Server: self-host (nginx via Docker) di `ahmadhasan.my.id`. Butuh Node >= 18 di 
 > `data/leetcode.json` langsung terlihat oleh nginx tanpa rebuild image.
 > Pastikan deploy terbaru (dengan volume mount) sudah jalan.
 
+> **Remote git**: repo di server ini memakai remote HTTPS
+> (`https://github.com/Ahmadhasanali/curriculum_vitae.git`) dengan kredensial
+> tersimpan — workflow deploy mengandalkan ini untuk `git pull`. Jangan
+> mengganti ke SSH, karena SSH key deploy bukan key GitHub dan pull akan
+> gagal dengan `Permission denied (publickey)`.
+
 ## Pasang cron (pilih salah satu)
 
 Harian 06:00:
