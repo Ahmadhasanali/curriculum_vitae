@@ -1,0 +1,19 @@
+services:
+  cv:
+    build: .
+    container_name: curriculum_vitae
+    restart: unless-stopped
+    networks:
+      - default
+      - traefik-public
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cv.rule=Host(`ahmadhasan.my.id`)"
+      - "traefik.http.routers.cv.entrypoints=web"
+      - "traefik.http.routers.cv.middlewares=rate-limit@file"
+      - "traefik.http.services.cv.loadbalancer.server.port=80"
+      - "traefik.docker.network=traefik-public"
+
+networks:
+  traefik-public:
+    external: true

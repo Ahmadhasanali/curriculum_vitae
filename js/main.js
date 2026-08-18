@@ -352,14 +352,14 @@
             (p.showGithub !== false || p.showDemo !== false
               ? '<div class="portfolio__links">' +
               (p.showGithub !== false
-                ? '<a href="' +
+                ? '<a target="_blank" rel="noopener noreferrer"  href="' +
                 p.githubUrl +
                 '" class="portfolio__link" aria-label="View on GitHub">' +
                 githubSvg +
                 "</a>"
                 : "") +
               (p.showDemo !== false
-                ? '<a href="' +
+                ? '<a target="_blank" rel="noopener noreferrer" href="' +
                 p.demoUrl +
                 '" class="portfolio__link" aria-label="View live demo">' +
                 demoSvg +

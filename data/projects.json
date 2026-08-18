@@ -14,7 +14,7 @@
     "showGithub": false,
     "showDemo": false,
     "githubUrl": "#",
-    "demoUrl": "qurbanledger.ahmadhasan.my.id/landing"
+    "demoUrl": "https://qurbanledger.ahmadhasan.my.id/landing"
   },
   {
     "id": "hydro",
@@ -45,8 +45,8 @@
       "Google Cloud"
     ],
     "showGithub": false,
-    "showDemo": false,
+    "showDemo": true,
     "githubUrl": "#",
-    "demoUrl": "#"
+    "demoUrl": "https://play.google.com/store/apps/details?id=com.stevor.express&pcampaignid=web_share"
   }
 ]
