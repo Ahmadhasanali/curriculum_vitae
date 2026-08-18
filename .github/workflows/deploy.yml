@@ -10,6 +10,7 @@ concurrency:
 
 env:
   DEPLOY_PATH: /home/deploy/project/curriculum_vitae
+  DOCKER_FILE_NAME: docker-compose.prod.yml
 
 jobs:
   deploy:
@@ -36,4 +37,4 @@ jobs:
       - name: Deploy
         run: |
           ssh ${{ secrets.HOME_SERVER_USER }}@${{ secrets.HOME_SERVER_HOST }} \
-            "cd $DEPLOY_PATH && git pull && docker compose -f compose.prod.yaml up -d --build"
+            "cd $DEPLOY_PATH && git pull && docker compose -f $DOCKER_FILE_NAME up -d --build"
