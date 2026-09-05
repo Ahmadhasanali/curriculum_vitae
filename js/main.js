@@ -137,6 +137,7 @@
       "hero.description":
         "Software engineer with 3+ years of experience in back-end development, specializing in PHP, Laravel, Go, and PostgreSQL. Passionate about building scalable APIs, designing robust database architectures, and crafting maintainable systems.",
       "hero.downloadCv": "Download CV",
+      "hero.downloadCvHref": "assets/files/Resume_Ahmad_Hasan_Ali.pdf",
       "hero.contactMe": "Contact Me",
       "about.title": "About Me",
       "about.p1":
@@ -207,6 +208,7 @@
       "hero.description":
         "Rekayasa perangkat lunak dengan pengalaman 3+ tahun di pengembangan back-end, mengkhususkan diri dalam PHP, Laravel, Go, dan PostgreSQL. Bersemangat membangun API yang skalabel, merancang arsitektur database yang kokoh, dan menciptakan sistem yang mudah dipelihara.",
       "hero.downloadCv": "Unduh CV",
+      "hero.downloadCvHref": "assets/files/CV_Ahmad_Hasan_Ali.pdf",
       "hero.contactMe": "Hubungi Saya",
       "about.title": "Tentang Saya",
       "about.p1":
@@ -290,6 +292,14 @@
       var key = el.getAttribute("data-i18n-placeholder");
       if (t[key]) {
         el.setAttribute("placeholder", t[key]);
+      }
+    });
+
+    var hrefEls = document.querySelectorAll("[data-i18n-href]");
+    hrefEls.forEach(function (el) {
+      var key = el.getAttribute("data-i18n-href");
+      if (t[key]) {
+        el.setAttribute("href", t[key]);
       }
     });
 
