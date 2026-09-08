@@ -24,6 +24,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
+  <link rel="preload" as="image" href="assets/images/Ahmad_Hasan_Ali_pasFoto1200x1800.jpg" fetchpriority="high">
   <link rel="stylesheet" href="styles/reset.css">
   <link rel="stylesheet" href="styles/main.css">
   <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
@@ -35,14 +36,14 @@
   <!-- Navigation -->
   <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="navbar__inner container">
-      <a href="#hero" class="navbar__logo" aria-label="Home">AHA</a>
-      <ul class="navbar__links" id="nav-menu" role="menubar">
-        <li role="none"><a href="#about" class="navbar__link" role="menuitem" data-i18n="nav.about">About</a></li>
-        <li role="none"><a href="#experience" class="navbar__link" role="menuitem" data-i18n="nav.experience">Experience</a></li>
-        <li role="none"><a href="#skills" class="navbar__link" role="menuitem" data-i18n="nav.skills">Skills</a></li>
-        <li role="none"><a href="#portfolio" class="navbar__link" role="menuitem" data-i18n="nav.portfolio">Portfolio</a></li>
-        <li role="none"><a href="#contact" class="navbar__link" role="menuitem" data-i18n="nav.contact">Contact</a></li>
-        <li role="none">
+      <a href="#hero" class="navbar__logo" aria-label="AHA — Home">AHA</a>
+      <ul class="navbar__links" id="nav-menu">
+        <li><a href="#about" class="navbar__link" data-i18n="nav.about">About</a></li>
+        <li><a href="#experience" class="navbar__link" data-i18n="nav.experience">Experience</a></li>
+        <li><a href="#skills" class="navbar__link" data-i18n="nav.skills">Skills</a></li>
+        <li><a href="#portfolio" class="navbar__link" data-i18n="nav.portfolio">Portfolio</a></li>
+        <li><a href="#contact" class="navbar__link" data-i18n="nav.contact">Contact</a></li>
+        <li>
           <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
             <svg class="theme-toggle__icon theme-toggle__icon--sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="5"></circle>
@@ -60,7 +61,7 @@
             </svg>
           </button>
         </li>
-        <li role="none">
+        <li>
           <button class="lang-toggle" id="lang-toggle" aria-label="Switch language" data-i18n="lang.toggle">ID</button>
         </li>
       </ul>
@@ -73,6 +74,7 @@
   </nav>
 
   <!-- Hero Section -->
+  <main>
   <section id="hero" class="hero section">
     <div class="container">
       <div class="hero__content">
@@ -92,7 +94,7 @@
       </div>
       <div class="hero__image-wrapper">
         <div class="hero__image-frame">
-          <img src="assets/images/Ahmad_Hasan_Ali_pasFoto1200x1800.jpg" alt="Ahmad Hasan Ali" class="hero__image">
+          <img src="assets/images/Ahmad_Hasan_Ali_pasFoto1200x1800.jpg" alt="Ahmad Hasan Ali" class="hero__image" fetchpriority="high" decoding="async" width="800" height="1200">
         </div>
       </div>
     </div>
@@ -103,11 +105,6 @@
     <div class="container">
       <h2 class="section__title" data-i18n="about.title">About Me</h2>
       <div class="about__grid">
-        <div class="about__image-wrapper">
-          <div class="about__image-frame">
-            <img src="assets/images/Ahmad_Hasan_Ali_pasFoto1200x1800.jpg" alt="Ahmad Hasan Ali" class="about__image">
-          </div>
-        </div>
         <div class="about__content">
           <p data-i18n="about.p1">
             Software engineer with approximately three years of professional and internship
@@ -388,6 +385,7 @@
     </div>
   </section>
 
+  </main>
   <!-- Footer -->
   <footer class="footer">
     <div class="container">

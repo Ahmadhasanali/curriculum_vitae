@@ -2,7 +2,7 @@
   {
     "id": "qurban",
     "title": "QurbanLedger",
-    "image": "assets/images/qurbanledger_landing.png",
+    "image": "assets/images/qurbanledger_landing.webp",
     "descriptionKey": "portfolio.qurban.description",
     "tags": [
       "Vue 3",
@@ -19,7 +19,7 @@
   {
     "id": "hydro",
     "title": "Hydroponic Farm Manager",
-    "image": "assets/images/Hydroponics.png",
+    "image": "assets/images/Hydroponics.webp",
     "descriptionKey": "portfolio.hydro.description",
     "tags": [
       "Laravel 12",
@@ -34,7 +34,7 @@
   {
     "id": "stevor",
     "title": "Stevor Express",
-    "image": "assets/images/stevor_onboarding.png",
+    "image": "assets/images/stevor_onboarding.webp",
     "descriptionKey": "portfolio.stevor.description",
     "tags": [
       "Serverpod",

@@ -347,7 +347,7 @@
             p.image +
             '" alt="' +
             p.title +
-            '" class="portfolio__image-img">' +
+            '" class="portfolio__image-img" loading="lazy" decoding="async" width="800" height="450">' +
             "</div>" +
             '<div class="portfolio__body">' +
             '<h3 class="portfolio__title">' +

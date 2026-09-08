@@ -367,8 +367,8 @@ body {
 
 .about__grid {
   display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 60px;
+  grid-template-columns: 1fr;
+  gap: 24px;
   align-items: start;
 }
 
@@ -853,7 +853,7 @@ body {
 
 .footer__copyright {
   font-size: var(--fs-small);
-  color: var(--text-muted);
+  color: var(--text-secondary);
 }
 
 .footer__links {
