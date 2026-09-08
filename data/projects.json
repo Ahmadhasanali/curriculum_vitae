@@ -12,9 +12,9 @@
       "Docker"
     ],
     "showGithub": false,
-    "showDemo": false,
+    "showDemo": true,
     "githubUrl": "#",
-    "demoUrl": "https://qurbanledger.ahmadhasan.my.id/landing"
+    "demoUrl": "https://demo-qurbanledger.ahmadhasan.my.id/"
   },
   {
     "id": "hydro",
